@@ -4,7 +4,7 @@ A collection of simple, comforting meals designed for sharing with neighbors and
 
 ## Table of Contents
 - [How to Use This Book](#how-to-use-this-book)
-- **Freezer Meals**
+- [Freezer Meals](#freezer-meals)
   - [1) Chicken and Rice Casserole](#1-chicken-and-rice-casserole)
   - [2) Turkey Chili](#2-turkey-chili)
   - [3) Baked Ziti](#3-baked-ziti)
@@ -20,7 +20,9 @@ A collection of simple, comforting meals designed for sharing with neighbors and
 
 ---
 
-## 1) Chicken and Rice Casserole
+## Freezer Meals
+
+### 1) Chicken and Rice Casserole
 **Recipe Owner:** Neighbor Meals
 **Serves/Yield:** 6
 **Prep time:** 15 min
@@ -51,7 +53,7 @@ A collection of simple, comforting meals designed for sharing with neighbors and
 
 ---
 
-## 2) Turkey Chili
+### 2) Turkey Chili
 **Recipe Owner:** Neighbor Meals
 **Serves/Yield:** 8
 **Prep time:** 15 min
@@ -84,7 +86,7 @@ A collection of simple, comforting meals designed for sharing with neighbors and
 
 ---
 
-## 3) Baked Ziti
+### 3) Baked Ziti
 **Recipe Owner:** Neighbor Meals
 **Serves/Yield:** 8
 **Prep time:** 20 min

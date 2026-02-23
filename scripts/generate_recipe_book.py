@@ -86,15 +86,18 @@ def markdown_to_html(md: str) -> str:
 
         if stripped.startswith("# "):
             close_lists()
-            out.append(f"<h1>{inline_md_to_html(stripped[2:].strip())}</h1>")
+            heading_text = stripped[2:].strip()
+            out.append(f"<h1 id=\"{slugify(heading_text)}\">{inline_md_to_html(heading_text)}</h1>")
             continue
         if stripped.startswith("## "):
             close_lists()
-            out.append(f"<h2>{inline_md_to_html(stripped[3:].strip())}</h2>")
+            heading_text = stripped[3:].strip()
+            out.append(f"<h2 id=\"{slugify(heading_text)}\">{inline_md_to_html(heading_text)}</h2>")
             continue
         if stripped.startswith("### "):
             close_lists()
-            out.append(f"<h3>{inline_md_to_html(stripped[4:].strip())}</h3>")
+            heading_text = stripped[4:].strip()
+            out.append(f"<h3 id=\"{slugify(heading_text)}\">{inline_md_to_html(heading_text)}</h3>")
             continue
 
         if re.match(r"^\d+\.\s+", stripped):
@@ -194,21 +197,23 @@ def write_site_html(markdown_text: str) -> None:
 def main() -> None:
     idx = INDEX.read_text(encoding="utf-8")
     sections = parse_index_sections(idx)
-    recipes: list[tuple[str, str]] = []
+    section_recipes: list[tuple[str, list[tuple[int, str, str]]]] = []
     toc_sections: list[tuple[str, list[tuple[int, str]]]] = []
     counter = 1
 
     for section in sections:
         section_title = str(section["title"])
         section_entries: list[tuple[int, str]] = []
+        section_recipe_entries: list[tuple[int, str, str]] = []
         for path in section["paths"]:
             if not path.exists():
                 continue
             title, body = read_recipe(path)
-            recipes.append((title, body))
             section_entries.append((counter, title))
+            section_recipe_entries.append((counter, title, body))
             counter += 1
         toc_sections.append((section_title, section_entries))
+        section_recipes.append((section_title, section_recipe_entries))
 
     lines: list[str] = [
         "# Neighbor Meals Cookbook",
@@ -220,7 +225,7 @@ def main() -> None:
     ]
 
     for section_title, section_entries in toc_sections:
-        lines.append(f"- **{section_title}**")
+        lines.append(f"- [{section_title}](#{slugify(section_title)})")
         if section_entries:
             for number, title in section_entries:
                 lines.append(f"  - [{number}) {title}](#{number}-{slugify(title)})")
@@ -241,14 +246,27 @@ def main() -> None:
         "---",
     ])
 
-    for i, (title, body) in enumerate(recipes, start=1):
+    for section_title, recipe_entries in section_recipes:
         lines.extend([
             "",
-            f"## {i}) {title}",
-            body,
-            "",
-            "---",
+            f"## {section_title}",
         ])
+        if not recipe_entries:
+            lines.extend([
+                "",
+                "_Coming soon_",
+                "",
+                "---",
+            ])
+            continue
+        for number, title, body in recipe_entries:
+            lines.extend([
+                "",
+                f"### {number}) {title}",
+                body,
+                "",
+                "---",
+            ])
 
     lines.extend([
         "",
