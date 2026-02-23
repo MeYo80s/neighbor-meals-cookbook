@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 from __future__ import annotations
 
+import html
 import re
 from pathlib import Path
 
@@ -9,6 +10,8 @@ BOOK = ROOT / "RECIPE_BOOK.md"
 INDEX = ROOT / "RECIPE_INDEX.md"
 DROP_OFF = ROOT / "docs" / "drop-off-options.md"
 TRANSPORT = ROOT / "docs" / "simple-transport-meals.md"
+SITE = ROOT / "docs" / "index.html"
+NOJEKYLL = ROOT / "docs" / ".nojekyll"
 
 
 def slugify(text: str) -> str:
@@ -48,6 +51,144 @@ def read_doc_without_h1(path: Path) -> str:
     if lines and lines[0].startswith("# "):
         return "\n".join(lines[1:]).strip()
     return text
+
+
+def inline_md_to_html(text: str) -> str:
+    text = html.escape(text)
+    text = re.sub(r"`([^`]+)`", r"<code>\1</code>", text)
+    text = re.sub(r"\*\*([^*]+)\*\*", r"<strong>\1</strong>", text)
+    text = re.sub(r"\[([^\]]+)\]\(([^)]+)\)", r'<a href="\2">\1</a>', text)
+    return text
+
+
+def markdown_to_html(md: str) -> str:
+    lines = md.splitlines()
+    out: list[str] = []
+    in_ul = False
+    in_ol = False
+
+    def close_lists() -> None:
+        nonlocal in_ul, in_ol
+        if in_ul:
+            out.append("</ul>")
+            in_ul = False
+        if in_ol:
+            out.append("</ol>")
+            in_ol = False
+
+    for raw_line in lines:
+        line = raw_line.rstrip()
+        stripped = line.strip()
+
+        if not stripped:
+            close_lists()
+            continue
+
+        if stripped.startswith("# "):
+            close_lists()
+            out.append(f"<h1>{inline_md_to_html(stripped[2:].strip())}</h1>")
+            continue
+        if stripped.startswith("## "):
+            close_lists()
+            out.append(f"<h2>{inline_md_to_html(stripped[3:].strip())}</h2>")
+            continue
+        if stripped.startswith("### "):
+            close_lists()
+            out.append(f"<h3>{inline_md_to_html(stripped[4:].strip())}</h3>")
+            continue
+
+        if re.match(r"^\d+\.\s+", stripped):
+            if in_ul:
+                out.append("</ul>")
+                in_ul = False
+            if not in_ol:
+                out.append("<ol>")
+                in_ol = True
+            content = re.sub(r"^\d+\.\s+", "", stripped)
+            out.append(f"<li>{inline_md_to_html(content)}</li>")
+            continue
+
+        if stripped.startswith("- "):
+            if in_ol:
+                out.append("</ol>")
+                in_ol = False
+            if not in_ul:
+                out.append("<ul>")
+                in_ul = True
+            out.append(f"<li>{inline_md_to_html(stripped[2:].strip())}</li>")
+            continue
+
+        if stripped == "---":
+            close_lists()
+            out.append("<hr>")
+            continue
+
+        close_lists()
+        out.append(f"<p>{inline_md_to_html(stripped)}</p>")
+
+    close_lists()
+    return "\n".join(out)
+
+
+def write_site_html(markdown_text: str) -> None:
+    body = markdown_to_html(markdown_text)
+    html_text = f"""<!doctype html>
+<html lang=\"en\">
+<head>
+  <meta charset=\"utf-8\">
+  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">
+  <title>Neighbor Meals Cookbook</title>
+  <style>
+    :root {{
+      --bg: #f8f5ee;
+      --surface: #fffdf9;
+      --ink: #2c2a26;
+      --accent: #8f3f2a;
+      --line: #e5ddd0;
+    }}
+    * {{ box-sizing: border-box; }}
+    body {{
+      margin: 0;
+      font-family: Georgia, "Times New Roman", serif;
+      color: var(--ink);
+      background: radial-gradient(circle at top right, #f2eadc, var(--bg));
+      line-height: 1.55;
+    }}
+    main {{
+      max-width: 920px;
+      margin: 2rem auto;
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 2rem;
+      box-shadow: 0 10px 25px rgba(0,0,0,.06);
+    }}
+    h1, h2, h3 {{ line-height: 1.2; }}
+    h1 {{ margin-top: 0; font-size: 2rem; color: var(--accent); }}
+    h2 {{ margin-top: 2rem; color: var(--accent); border-top: 1px solid var(--line); padding-top: 1rem; }}
+    h3 {{ margin-top: 1.25rem; }}
+    p, li {{ font-size: 1rem; }}
+    ul, ol {{ padding-left: 1.25rem; }}
+    hr {{ border: 0; border-top: 1px solid var(--line); margin: 1.5rem 0; }}
+    code {{ background: #f3ede2; padding: .1rem .3rem; border-radius: 4px; }}
+    a {{ color: var(--accent); }}
+    .meta {{ font-size: .95rem; color: #5f5546; margin-bottom: 1rem; }}
+    @media (max-width: 768px) {{
+      main {{ margin: 1rem; padding: 1.25rem; }}
+      h1 {{ font-size: 1.6rem; }}
+    }}
+  </style>
+</head>
+<body>
+  <main>
+    <div class=\"meta\">Neighbor Meals Ward Cookbook</div>
+    {body}
+  </main>
+</body>
+</html>
+"""
+    SITE.write_text(html_text, encoding="utf-8")
+    NOJEKYLL.write_text("\n", encoding="utf-8")
 
 
 def main() -> None:
@@ -95,7 +236,7 @@ def main() -> None:
         "- Add or edit recipes in `recipes/`.",
         "- Keep `RECIPE_INDEX.md` updated with links to each recipe.",
         "- Run `python3 scripts/auto_nutrition.py` to auto-add estimated calories/macros.",
-        "- Run `python3 scripts/generate_recipe_book.py` to rebuild this book.",
+        "- Run `python3 scripts/generate_recipe_book.py` to rebuild this book and website.",
         "",
         "---",
     ])
@@ -129,7 +270,9 @@ def main() -> None:
         "- If appropriate, bring a complete meal: main dish, side, and simple dessert.",
     ])
 
-    BOOK.write_text("\n".join(lines).rstrip() + "\n", encoding="utf-8")
+    markdown_text = "\n".join(lines).rstrip() + "\n"
+    BOOK.write_text(markdown_text, encoding="utf-8")
+    write_site_html(markdown_text)
 
 
 if __name__ == "__main__":

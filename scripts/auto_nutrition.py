@@ -21,32 +21,68 @@ class FoodItem:
     tsp_g: float | None = None
     unit_g: float | None = None
     can_g: float | None = None
+    pkg_g: float | None = None
 
 
 FOODS: tuple[FoodItem, ...] = (
-    FoodItem(("cooked chicken", "shredded chicken", "chicken"), 165, 31, 3.6, 0, cup_g=140),
-    FoodItem(("cooked rice", "rice"), 130, 2.7, 0.3, 28, cup_g=158),
-    FoodItem(("cream of chicken soup",), 75, 2.0, 4.0, 8.0, cup_g=250, can_g=300),
-    FoodItem(("sour cream",), 193, 2.4, 19.0, 4.6, cup_g=230, tbsp_g=14),
-    FoodItem(("cheddar cheese", "cheddar"), 403, 25, 33, 1.3, cup_g=113),
-    FoodItem(("mixed vegetables",), 65, 3.0, 0.3, 13.0, cup_g=160),
-    FoodItem(("garlic powder",), 331, 17.0, 0.7, 73.0, tsp_g=3.1),
+    FoodItem(("cooked chicken", "shredded chicken", "chicken breast", "chicken"), 165, 31.0, 3.6, 0.0, cup_g=140),
     FoodItem(("ground turkey", "turkey"), 170, 22.0, 9.0, 0.0),
+    FoodItem(("ground beef", "beef"), 254, 26.0, 17.0, 0.0),
+    FoodItem(("pulled pork", "pork"), 242, 27.0, 14.0, 0.0),
+    FoodItem(("egg", "eggs"), 143, 13.0, 10.0, 1.1, unit_g=50),
+    FoodItem(("egg noodles",), 384, 15.0, 4.4, 71.0),
+    FoodItem(("ziti pasta", "penne", "elbow macaroni", "pasta", "ziti"), 371, 13.0, 1.5, 75.0),
+    FoodItem(("cooked rice", "rice"), 130, 2.7, 0.3, 28.0, cup_g=158),
+    FoodItem(("potato", "potatoes"), 77, 2.0, 0.1, 17.0, unit_g=173),
+    FoodItem(("carrot", "carrots"), 41, 0.9, 0.2, 10.0, unit_g=61),
+    FoodItem(("celery",), 16, 0.7, 0.2, 3.0, unit_g=40),
     FoodItem(("onion",), 40, 1.1, 0.1, 9.3, unit_g=150),
+    FoodItem(("garlic powder",), 331, 17.0, 0.7, 73.0, tsp_g=3.1),
     FoodItem(("garlic",), 149, 6.4, 0.5, 33.0, unit_g=3),
-    FoodItem(("diced tomatoes", "tomatoes"), 18, 0.9, 0.2, 3.9, can_g=400, cup_g=245),
-    FoodItem(("kidney beans",), 127, 8.7, 0.5, 22.8, can_g=250, cup_g=177),
+    FoodItem(("bell pepper",), 31, 1.0, 0.3, 6.0, unit_g=119),
+    FoodItem(("broccoli",), 35, 2.4, 0.4, 7.2, cup_g=91),
+    FoodItem(("cauliflower",), 25, 1.9, 0.3, 5.0, cup_g=107),
+    FoodItem(("spinach",), 23, 2.9, 0.4, 3.6, cup_g=30),
+    FoodItem(("mixed vegetables",), 65, 3.0, 0.3, 13.0, cup_g=160),
+    FoodItem(("corn",), 96, 3.4, 1.5, 21.0, cup_g=145),
+    FoodItem(("peas",), 84, 5.4, 0.4, 15.0, cup_g=145),
     FoodItem(("black beans",), 132, 8.9, 0.5, 23.7, can_g=250, cup_g=172),
-    FoodItem(("chili powder",), 282, 13.0, 14.0, 50.0, tbsp_g=8),
-    FoodItem(("cumin",), 375, 18.0, 22.0, 44.0, tsp_g=2.1),
-    FoodItem(("salt",), 0, 0, 0, 0),
-    FoodItem(("ziti pasta", "pasta", "ziti"), 371, 13.0, 1.5, 75.0),
-    FoodItem(("marinara", "pasta sauce"), 56, 1.8, 1.7, 8.4, cup_g=250, can_g=680),
+    FoodItem(("kidney beans",), 127, 8.7, 0.5, 22.8, can_g=250, cup_g=177),
+    FoodItem(("pinto beans",), 143, 9.0, 0.7, 26.0, can_g=250, cup_g=171),
+    FoodItem(("diced tomatoes", "tomatoes"), 18, 0.9, 0.2, 3.9, can_g=400, cup_g=245),
+    FoodItem(("tomato paste",), 82, 4.3, 0.5, 19.0, tbsp_g=16),
+    FoodItem(("marinara", "pasta sauce", "tomato sauce"), 56, 1.8, 1.7, 8.4, cup_g=250, can_g=680),
+    FoodItem(("chicken broth", "chicken stock"), 15, 1.0, 0.5, 1.0, cup_g=240),
+    FoodItem(("beef broth", "beef stock"), 10, 1.0, 0.4, 0.5, cup_g=240),
+    FoodItem(("cream of chicken soup",), 75, 2.0, 4.0, 8.0, cup_g=250, can_g=300),
+    FoodItem(("cream of mushroom soup",), 78, 1.6, 5.0, 7.0, cup_g=250, can_g=300),
+    FoodItem(("sour cream",), 193, 2.4, 19.0, 4.6, cup_g=230, tbsp_g=14),
     FoodItem(("ricotta",), 174, 11.0, 13.0, 3.0, cup_g=246),
+    FoodItem(("cream cheese",), 342, 6.2, 34.0, 4.1, tbsp_g=14, pkg_g=226),
+    FoodItem(("cottage cheese",), 98, 11.0, 4.3, 3.4, cup_g=226),
+    FoodItem(("cheddar cheese", "cheddar"), 403, 25.0, 33.0, 1.3, cup_g=113),
     FoodItem(("mozzarella",), 280, 28.0, 17.0, 3.1, cup_g=112),
     FoodItem(("parmesan",), 431, 38.0, 29.0, 4.1, cup_g=100),
-    FoodItem(("egg", "eggs"), 143, 13.0, 10.0, 1.1, unit_g=50),
+    FoodItem(("monterey jack",), 373, 25.0, 30.0, 1.3, cup_g=113),
+    FoodItem(("milk",), 61, 3.2, 3.3, 4.8, cup_g=245),
+    FoodItem(("heavy cream",), 340, 2.1, 36.0, 2.8, cup_g=238, tbsp_g=15),
+    FoodItem(("butter",), 717, 0.9, 81.0, 0.1, tbsp_g=14, unit_g=113),
+    FoodItem(("olive oil",), 884, 0.0, 100.0, 0.0, tbsp_g=13.5, tsp_g=4.5),
+    FoodItem(("vegetable oil", "canola oil", "oil"), 884, 0.0, 100.0, 0.0, tbsp_g=13.5, tsp_g=4.5),
+    FoodItem(("flour",), 364, 10.0, 1.0, 76.0, cup_g=120, tbsp_g=7.5),
+    FoodItem(("sugar",), 387, 0.0, 0.0, 100.0, cup_g=200, tbsp_g=12.5),
+    FoodItem(("brown sugar",), 380, 0.1, 0.0, 98.0, cup_g=220, tbsp_g=13.8),
+    FoodItem(("honey",), 304, 0.3, 0.0, 82.0, tbsp_g=21),
+    FoodItem(("maple syrup",), 260, 0.0, 0.1, 67.0, tbsp_g=20),
+    FoodItem(("oats", "oatmeal"), 389, 17.0, 6.9, 66.0, cup_g=81),
+    FoodItem(("breadcrumbs",), 395, 13.0, 5.0, 72.0, cup_g=108),
+    FoodItem(("tortilla", "tortillas"), 310, 8.0, 8.0, 51.0, unit_g=50),
     FoodItem(("italian seasoning",), 265, 11.0, 7.0, 51.0, tsp_g=1.0),
+    FoodItem(("chili powder",), 282, 13.0, 14.0, 50.0, tbsp_g=8),
+    FoodItem(("cumin",), 375, 18.0, 22.0, 44.0, tsp_g=2.1),
+    FoodItem(("paprika",), 282, 14.0, 13.0, 54.0, tsp_g=2.3),
+    FoodItem(("black pepper", "pepper"), 251, 10.0, 3.3, 64.0, tsp_g=2.3),
+    FoodItem(("salt",), 0.0, 0.0, 0.0, 0.0),
 )
 
 FRACTIONS = {
@@ -56,6 +92,12 @@ FRACTIONS = {
     "1/2": 0.5,
     "2/3": 0.667,
     "3/4": 0.75,
+    "⅛": 0.125,
+    "¼": 0.25,
+    "⅓": 0.333,
+    "½": 0.5,
+    "⅔": 0.667,
+    "¾": 0.75,
 }
 
 UNIT_ALIASES = {
@@ -78,11 +120,17 @@ UNIT_ALIASES = {
     "cans": "can",
     "jar": "jar",
     "jars": "jar",
+    "package": "pkg",
+    "packages": "pkg",
+    "pkg": "pkg",
+    "stick": "unit",
+    "sticks": "unit",
     "clove": "unit",
     "cloves": "unit",
     "egg": "unit",
     "eggs": "unit",
 }
+
 
 
 def parse_servings(text: str) -> float:
@@ -149,40 +197,30 @@ def parse_ingredient_line(line: str) -> tuple[float, str, str] | None:
     return qty, unit, ingredient_text
 
 
-def ingredient_to_grams(qty: float, unit: str, food: FoodItem) -> float | None:
+def ingredient_to_grams(qty: float, unit: str, food: FoodItem) -> float:
     if unit == "lb":
         return qty * 453.592
     if unit == "oz":
         return qty * 28.3495
     if unit == "can":
-        if food.can_g is not None:
-            return qty * food.can_g
-        return qty * 400
+        return qty * (food.can_g if food.can_g is not None else 400)
     if unit == "jar":
-        if food.can_g is not None:
-            return qty * food.can_g
-        return qty * 650
+        return qty * (food.can_g if food.can_g is not None else 650)
+    if unit == "pkg":
+        return qty * (food.pkg_g if food.pkg_g is not None else 454)
     if unit == "cup":
-        if food.cup_g is not None:
-            return qty * food.cup_g
-        return qty * 240
+        return qty * (food.cup_g if food.cup_g is not None else 240)
     if unit == "tbsp":
         if food.tbsp_g is not None:
             return qty * food.tbsp_g
-        if food.cup_g is not None:
-            return qty * (food.cup_g / 16.0)
-        return qty * 15
+        return qty * ((food.cup_g / 16.0) if food.cup_g is not None else 15)
     if unit == "tsp":
         if food.tsp_g is not None:
             return qty * food.tsp_g
-        if food.cup_g is not None:
-            return qty * (food.cup_g / 48.0)
-        return qty * 5
+        return qty * ((food.cup_g / 48.0) if food.cup_g is not None else 5)
     if unit == "unit":
-        if food.unit_g is not None:
-            return qty * food.unit_g
-        return qty * 50
-    return None
+        return qty * (food.unit_g if food.unit_g is not None else 50)
+    return qty * 50
 
 
 def find_food(ingredient_text: str) -> FoodItem | None:
@@ -238,10 +276,8 @@ def process_recipe(path: Path) -> tuple[bool, str]:
         food = find_food(ingredient_text)
         if food is None:
             continue
-        grams = ingredient_to_grams(qty, unit, food)
-        if grams is None:
-            continue
 
+        grams = ingredient_to_grams(qty, unit, food)
         factor = grams / 100.0
         total_cal += food.cal_per_100g * factor
         total_p += food.protein_per_100g * factor

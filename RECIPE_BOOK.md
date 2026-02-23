@@ -16,7 +16,7 @@ A collection of simple, comforting meals designed for sharing with neighbors and
 - Add or edit recipes in `recipes/`.
 - Keep `RECIPE_INDEX.md` updated with links to each recipe.
 - Run `python3 scripts/auto_nutrition.py` to auto-add estimated calories/macros.
-- Run `python3 scripts/generate_recipe_book.py` to rebuild this book.
+- Run `python3 scripts/generate_recipe_book.py` to rebuild this book and website.
 
 ---
 
