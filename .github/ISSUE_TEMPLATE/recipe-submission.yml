@@ -1,0 +1,49 @@
+name: Recipe submission
+about: Suggest a new recipe for the Neighbor Meals Cookbook
+labels: ["recipe"]
+body:
+  - type: input
+    id: title
+    attributes:
+      label: Recipe title
+      placeholder: Chicken Pot Pie Casserole
+    validations:
+      required: true
+
+  - type: input
+    id: owner
+    attributes:
+      label: Recipe owner
+      placeholder: Sister Smith
+
+  - type: input
+    id: serves
+    attributes:
+      label: Serves / Yield
+      placeholder: 6
+
+  - type: textarea
+    id: ingredients
+    attributes:
+      label: Ingredients
+      placeholder: |
+        - 1 lb ground turkey
+        - 1 onion, diced
+    validations:
+      required: true
+
+  - type: textarea
+    id: instructions
+    attributes:
+      label: Instructions
+      placeholder: |
+        1. Brown turkey with onion.
+        2. Add remaining ingredients and simmer.
+    validations:
+      required: true
+
+  - type: textarea
+    id: transport
+    attributes:
+      label: Transport notes
+      placeholder: Leak-proof container, include reheating directions.
